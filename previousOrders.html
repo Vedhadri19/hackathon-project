@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Previous Orders - GrocerBridge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7fafc;
+      color: #222;
+    }
+    .header {
+      background: #388e3c;
+      color: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .icon-container {
+      position: relative;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-container:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .notification-icon {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .profile-icon {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .help-text {
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+      padding: 0 0.2rem;
+    }
+    .notification-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #ff4444;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .main-content {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      padding: 0 2rem;
+    }
+    .orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .order-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .order-id {
+      font-weight: bold;
+      color: #388e3c;
+    }
+    .order-status {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .status-delivered {
+      background: #d4edda;
+      color: #155724;
+    }
+    .order-details {
+      color: #555;
+      font-size: 1rem;
+    }
+    .order-total {
+      font-weight: bold;
+      color: #388e3c;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+    }
+    .order-address {
+      margin-top: 0.5rem;
+      color: #333;
+      font-size: 0.97rem;
+    }
+    .delivery-contact {
+      margin-top: 0.5rem;
+      color: #388e3c;
+      font-size: 0.97rem;
+    }
+    @media (max-width: 600px) {
+      .main-content {
+        padding: 0 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:1.2rem;">
+      <a href="stallHome.html" style="display:flex;align-items:center;text-decoration:none;color:#fff;font-size:1.7rem;" title="Home">🏠</a>
+      <h1 style="margin:0;">Previous Orders</h1>
+    </div>
+    <div class="header-icons">
+      <div class="icon-container" onclick="showNotifications()">
+        <div class="notification-icon">🔔</div>
+        <div class="notification-badge">1</div>
+      </div>
+      <div class="icon-container" onclick="showProfile()">
+        <div class="profile-icon">👤</div>
+      </div>
+      <div class="icon-container" onclick="showHelp()">
+        <div class="help-text">Help</div>
+      </div>
+    </div>
+  </div>
+  <div class="main-content">
+    <h2 style="color:#388e3c; margin-bottom:2rem;">Your Order History</h2>
+    <div class="orders-list">
+      <!-- Order 1 -->
+      <div class="order-card">
+        <div class="order-header">
+          <span class="order-id">Order #1232</span>
+          <span class="order-status status-delivered">Delivered</span>
+        </div>
+        <div class="order-details">
+          <strong>Order Date:</strong> 2024-01-13<br>
+          <strong>Order Delivery Date:</strong> 2024-01-14<br>
+          <strong>Supplier:</strong> Organic Harvest<br>
+          <strong>Items:</strong> Carrots (4kg), Spinach (2kg)<br>
+        </div>
+        <div class="order-total">Total: ₹320</div>
+        <div class="order-address"><strong>Delivery Address:</strong> 22, Connaught Place, Delhi</div>
+        <div class="delivery-contact"><strong>Delivery Boy Contact:</strong> Suresh Patel (<a href="tel:9988776655" style="color:#388e3c;text-decoration:underline;">9988776655</a>)</div>
+      </div>
+      <!-- Order 2 -->
+      <div class="order-card">
+        <div class="order-header">
+          <span class="order-id">Order #1228</span>
+          <span class="order-status status-delivered">Delivered</span>
+        </div>
+        <div class="order-details">
+          <strong>Order Date:</strong> 2024-01-10<br>
+          <strong>Order Delivery Date:</strong> 2024-01-11<br>
+          <strong>Supplier:</strong> Fresh Farms<br>
+          <strong>Items:</strong> Onions (10kg), Potatoes (5kg)<br>
+        </div>
+        <div class="order-total">Total: ₹650</div>
+        <div class="order-address"><strong>Delivery Address:</strong> 12, Market Road, Andheri, Mumbai</div>
+        <div class="delivery-contact"><strong>Delivery Boy Contact:</strong> Rajesh Kumar (<a href="tel:9876543210" style="color:#388e3c;text-decoration:underline;">9876543210</a>)</div>
+      </div>
+      <!-- Order 3 -->
+      <div class="order-card">
+        <div class="order-header">
+          <span class="order-id">Order #1225</span>
+          <span class="order-status status-delivered">Delivered</span>
+        </div>
+        <div class="order-details">
+          <strong>Order Date:</strong> 2024-01-08<br>
+          <strong>Order Delivery Date:</strong> 2024-01-09<br>
+          <strong>Supplier:</strong> Green Valley<br>
+          <strong>Items:</strong> Apples (3kg), Bananas (2kg), Oranges (1kg)<br>
+        </div>
+        <div class="order-total">Total: ₹480</div>
+        <div class="order-address"><strong>Delivery Address:</strong> 8, Main Street, Jayanagar, Bangalore</div>
+        <div class="delivery-contact"><strong>Delivery Boy Contact:</strong> Amit Singh (<a href="tel:9123456789" style="color:#388e3c;text-decoration:underline;">9123456789</a>)</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function showNotifications() {
+      alert('Notifications:\n• Your order #1232 was delivered\n• New offer: 10% off on next order!');
+    }
+    function showProfile() {
+      alert('Profile Options:\n• View Profile\n• Edit Information\n• Change Password\n• Logout');
+    }
+    function showHelp() {
+      alert('Help Center:\n• How to view order history\n• Reorder items\n• Contact Support');
+    }
+  </script>
+</body>
+</html> 

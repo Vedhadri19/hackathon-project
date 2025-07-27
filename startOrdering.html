@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Ordering - GrocerBridge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7fafc;
+      color: #222;
+    }
+    
+    .header {
+      background: #388e3c;
+      color: #fff;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    
+    .header-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    .icon-container {
+      position: relative;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .icon-container:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .notification-icon {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    
+    .profile-icon {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    
+    .help-text {
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+      padding: 0 0.2rem;
+    }
+    
+    .notification-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #ff4444;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .main-content {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+    
+    .search-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+    
+    .search-section h2 {
+      color: #388e3c;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+    .search-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .location-dropdowns {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .location-select {
+      padding: 0.7rem 1.2rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fff;
+    }
+    
+    .search-filters {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    
+    .filter-select {
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fff;
+    }
+    
+    .search-btn {
+      background: #388e3c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .search-btn:hover {
+      background: #256029;
+    }
+    
+    .suppliers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 350px);
+      gap: 2rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+    
+    .supplier-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 350px;
+      box-sizing: border-box;
+    }
+    
+    .supplier-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+    
+    .supplier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .supplier-info h3 {
+      color: #388e3c;
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .supplier-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .rating-stars {
+      color: #ffc107;
+    }
+    
+    .supplier-distance {
+      background: #e8f5e8;
+      color: #388e3c;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .products-list {
+      margin-top: 1rem;
+    }
+    
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .product-item:last-child {
+      border-bottom: none;
+    }
+    
+    .product-info {
+      flex: 1;
+    }
+    
+    .product-name {
+      font-weight: bold;
+      color: #222;
+      margin-bottom: 0.2rem;
+    }
+    
+    .product-details {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .product-price {
+      font-weight: bold;
+      color: #388e3c;
+      margin-bottom: 0.2rem;
+    }
+    
+    .product-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .quantity-input {
+      width: 60px;
+      padding: 0.3rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .add-to-cart-btn {
+      background: #388e3c;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .add-to-cart-btn:hover {
+      background: #256029;
+    }
+    
+    .cart-section {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 350px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: -2px 0 16px rgba(0,0,0,0.1);
+      padding: 2rem;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .cart-section.open {
+      transform: translateX(0);
+    }
+    
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cart-header h3 {
+      color: #388e3c;
+      margin: 0;
+    }
+    
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .cart-items {
+      margin-bottom: 2rem;
+    }
+    
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .cart-item-info {
+      flex: 1;
+    }
+    
+    .cart-item-name {
+      font-weight: bold;
+      margin-bottom: 0.2rem;
+    }
+    
+    .cart-item-supplier {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .cart-item-price {
+      color: #388e3c;
+      font-weight: bold;
+    }
+    
+    .cart-total {
+      border-top: 2px solid #eee;
+      padding-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .cart-total-final {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #388e3c;
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      background: #388e3c;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .checkout-btn:hover {
+      background: #256029;
+    }
+    
+    .cart-toggle {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: #388e3c;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(56,142,60,0.3);
+      transition: transform 0.2s;
+    }
+    
+    .cart-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff4444;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 1rem;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .main-content {
+        padding: 0 1rem;
+      }
+      
+      .search-filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-header-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      .location-dropdowns {
+        justify-content: flex-start;
+      }
+      .suppliers-grid {
+        grid-template-columns: 1fr;
+      }
+      .supplier-card {
+        width: 100%;
+      }
+      
+      .cart-section {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div style="display:flex;align-items:center;gap:1.2rem;">
+      <a href="stallHome.html" style="display:flex;align-items:center;text-decoration:none;color:#fff;font-size:1.7rem;" title="Home">🏠</a>
+      <h1 style="margin:0;">Start Ordering</h1>
+    </div>
+    <div class="header-icons">
+      <div class="icon-container" onclick="showNotifications()">
+        <div class="notification-icon">🔔</div>
+        <div class="notification-badge">3</div>
+      </div>
+      <div class="icon-container" onclick="showProfile()">
+        <div class="profile-icon">👤</div>
+      </div>
+      <div class="icon-container" onclick="showHelp()">
+        <div class="help-text">Help</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="search-section">
+      <div class="search-header-row">
+        <h2 style="margin-bottom:0;">Find Products from Nearby Suppliers</h2>
+        <div class="location-dropdowns">
+          <select class="location-select" id="citySelect">
+            <option value="">Select City</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bangalore">Bangalore</option>
+          </select>
+          <select class="location-select" id="areaSelect">
+            <option value="">Select Area</option>
+            <option value="Andheri">Andheri</option>
+            <option value="Bandra">Bandra</option>
+            <option value="Jayanagar">Jayanagar</option>
+            <option value="Koramangala">Koramangala</option>
+            <option value="Connaught Place">Connaught Place</option>
+            <option value="Saket">Saket</option>
+          </select>
+        </div>
+      </div>
+      <div class="search-filters">
+        <input type="text" class="search-input" placeholder="Search for products..." id="searchInput">
+        <select class="filter-select" id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="vegetables">Vegetables</option>
+          <option value="fruits">Fruits</option>
+          <option value="dairy">Dairy</option>
+          <option value="grains">Grains</option>
+        </select>
+        <select class="filter-select" id="distanceFilter">
+          <option value="">Any Distance</option>
+          <option value="5">Within 5 km</option>
+          <option value="10">Within 10 km</option>
+          <option value="20">Within 20 km</option>
+        </select>
+        <button class="search-btn" onclick="searchProducts()">Search</button>
+      </div>
+    </div>
+
+    <div class="suppliers-grid" id="suppliersGrid">
+      <!-- Supplier cards will be populated here -->
+    </div>
+  </div>
+
+  <!-- Shopping Cart -->
+  <button class="cart-toggle" onclick="toggleCart()">
+    🛒
+    <div class="cart-badge" id="cartBadge">0</div>
+  </button>
+
+  <div class="cart-section" id="cartSection">
+    <div class="cart-header">
+      <h3>Shopping Cart</h3>
+      <button class="close-cart" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <!-- Cart items will be populated here -->
+    </div>
+    <div class="cart-total">
+      <div class="cart-total-row">
+        <span>Subtotal:</span>
+        <span id="cartSubtotal">₹0</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Delivery:</span>
+        <span id="cartDelivery">₹50</span>
+      </div>
+      <div class="cart-total-row cart-total-final">
+        <span>Total:</span>
+        <span id="cartTotal">₹50</span>
+      </div>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+
+  <script>
+    // Sample data
+    const suppliers = [
+      {
+        id: 1,
+        name: "Fresh Farms",
+        rating: 4.8,
+        distance: "2.3 km",
+        products: [
+          { id: 1, name: "Fresh Tomatoes", price: 40, unit: "per kg", stock: 50 },
+          { id: 2, name: "Onions", price: 25, unit: "per kg", stock: 100 },
+          { id: 3, name: "Potatoes", price: 30, unit: "per kg", stock: 75 }
+        ]
+      },
+      {
+        id: 2,
+        name: "Green Valley",
+        rating: 4.6,
+        distance: "8.2 km",
+        products: [
+          { id: 4, name: "Apples", price: 120, unit: "per kg", stock: 30 },
+          { id: 5, name: "Bananas", price: 60, unit: "per kg", stock: 45 },
+          { id: 6, name: "Oranges", price: 80, unit: "per kg", stock: 25 }
+        ]
+      },
+      {
+        id: 3,
+        name: "Organic Harvest",
+        rating: 4.9,
+        distance: "1.8 km",
+        products: [
+          { id: 7, name: "Carrots", price: 35, unit: "per kg", stock: 40 },
+          { id: 8, name: "Spinach", price: 20, unit: "per kg", stock: 60 },
+          { id: 9, name: "Cucumber", price: 30, unit: "per kg", stock: 35 }
+        ]
+      }
+    ];
+
+    let cart = [];
+
+    // Initialize the page
+    function initializePage() {
+      renderSuppliers();
+      updateCartBadge();
+    }
+
+    // Render suppliers and their products
+    function renderSuppliers() {
+      const grid = document.getElementById('suppliersGrid');
+      grid.innerHTML = '';
+
+      suppliers.forEach(supplier => {
+        const card = document.createElement('div');
+        card.className = 'supplier-card';
+        card.innerHTML = `
+          <div class="supplier-header">
+            <div class="supplier-info">
+              <h3>${supplier.name}</h3>
+              <div class="supplier-rating">
+                <span class="rating-stars">★★★★★</span>
+                <span>${supplier.rating}</span>
+              </div>
+            </div>
+            <div class="supplier-distance">${supplier.distance}</div>
+          </div>
+          <div class="products-list">
+            ${supplier.products.map(product => `
+              <div class="product-item">
+                <div class="product-info">
+                  <div class="product-name">${product.name}</div>
+                  <div class="product-details">Stock: ${product.stock} kg</div>
+                </div>
+                <div class="product-price">₹${product.price} ${product.unit}</div>
+                <div class="product-actions">
+                  <input type="number" class="quantity-input" min="1" max="${product.stock}" value="1" id="qty-${product.id}">
+                  <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price}, '${supplier.name}')">Add</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Add item to cart
+    function addToCart(productId, productName, price, supplierName) {
+      const quantity = parseInt(document.getElementById(`qty-${productId}`).value);
+      
+      if (quantity <= 0) {
+        alert('Please enter a valid quantity');
+        return;
+      }
+
+      const existingItem = cart.find(item => item.productId === productId);
+      
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        cart.push({
+          productId,
+          productName,
+          price,
+          supplierName,
+          quantity
+        });
+      }
+
+      updateCartDisplay();
+      updateCartBadge();
+      alert(`${quantity} kg of ${productName} added to cart!`);
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+      const cartItems = document.getElementById('cartItems');
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const delivery = subtotal > 0 ? 50 : 0;
+      const total = subtotal + delivery;
+
+      cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.productName}</div>
+            <div class="cart-item-supplier">${item.supplierName}</div>
+          </div>
+          <div class="cart-item-price">₹${item.price * item.quantity}</div>
+          <button class="remove-cart-item" onclick="removeFromCart(${item.productId})" title="Remove from cart" style="background:none;border:none;color:#ff4444;font-size:1.2rem;cursor:pointer;margin-left:0.5rem;">🗑️</button>
+        </div>
+      `).join('');
+
+      document.getElementById('cartSubtotal').textContent = `₹${subtotal}`;
+      document.getElementById('cartDelivery').textContent = `₹${delivery}`;
+      document.getElementById('cartTotal').textContent = `₹${total}`;
+    }
+
+    // Update cart badge
+    function updateCartBadge() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cartBadge').textContent = totalItems;
+    }
+
+    // Remove item from cart
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.productId !== productId);
+      updateCartDisplay();
+      updateCartBadge();
+    }
+
+    // Toggle cart visibility
+    function toggleCart() {
+      const cartSection = document.getElementById('cartSection');
+      cartSection.classList.toggle('open');
+    }
+
+    // Search products
+    function searchProducts() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const category = document.getElementById('categoryFilter').value;
+      const distance = document.getElementById('distanceFilter').value;
+
+      // Filter suppliers based on search criteria
+      const filteredSuppliers = suppliers.filter(supplier => {
+        const hasMatchingProducts = supplier.products.some(product => 
+          product.name.toLowerCase().includes(searchTerm)
+        );
+        
+        const withinDistance = !distance || parseFloat(supplier.distance) <= parseFloat(distance);
+        
+        return hasMatchingProducts && withinDistance;
+      });
+
+      // Re-render with filtered results
+      renderFilteredSuppliers(filteredSuppliers);
+    }
+
+    // Render filtered suppliers
+    function renderFilteredSuppliers(filteredSuppliers) {
+      const grid = document.getElementById('suppliersGrid');
+      grid.innerHTML = '';
+
+      if (filteredSuppliers.length === 0) {
+        grid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">No suppliers found matching your criteria.</p>';
+        return;
+      }
+
+      filteredSuppliers.forEach(supplier => {
+        const card = document.createElement('div');
+        card.className = 'supplier-card';
+        card.innerHTML = `
+          <div class="supplier-header">
+            <div class="supplier-info">
+              <h3>${supplier.name}</h3>
+              <div class="supplier-rating">
+                <span class="rating-stars">★★★★★</span>
+                <span>${supplier.rating}</span>
+              </div>
+            </div>
+            <div class="supplier-distance">${supplier.distance}</div>
+          </div>
+          <div class="products-list">
+            ${supplier.products.map(product => `
+              <div class="product-item">
+                <div class="product-info">
+                  <div class="product-name">${product.name}</div>
+                  <div class="product-details">Stock: ${product.stock} kg</div>
+                </div>
+                <div class="product-price">₹${product.price} ${product.unit}</div>
+                <div class="product-actions">
+                  <input type="number" class="quantity-input" min="1" max="${product.stock}" value="1" id="qty-${product.id}">
+                  <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price}, '${supplier.name}')">Add</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Checkout function
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0) + 50;
+      alert(`Order placed successfully! Total: ₹${total}\nYou will receive a confirmation shortly.`);
+      
+      // Clear cart
+      cart = [];
+      updateCartDisplay();
+      updateCartBadge();
+      toggleCart();
+    }
+
+    // Header functions
+    function showNotifications() {
+      alert('Notifications:\n• Order #1234 has been delivered\n• New supplier "Fresh Farms" added nearby\n• Special offer: 15% off on vegetables');
+    }
+    
+    function showProfile() {
+      alert('Profile Options:\n• View Profile\n• Edit Information\n• Change Password\n• Payment Methods\n• Logout');
+    }
+    
+    function showHelp() {
+      alert('Help Center:\n• How to place orders\n• Track your deliveries\n• Payment options\n• Contact Support\n• User Guide');
+    }
+
+    // Initialize page when loaded
+    window.onload = initializePage;
+  </script>
+</body>
+</html> 

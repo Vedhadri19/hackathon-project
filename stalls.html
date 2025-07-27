@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Street Food Stalls - GrocerBridge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7fafc;
+      color: #222;
+    }
+    .stalls-header {
+      background: #388e3c;
+      color: #fff;
+      padding: 2rem 1rem 1rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .stalls-header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+    .stalls-header p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .stalls-container {
+      max-width: 400px;
+      margin: 3rem auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 2.5rem 2rem 2rem 2rem;
+      text-align: center;
+    }
+    .stalls-container h2 {
+      color: #388e3c;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
+    .stalls-btn {
+      display: block;
+      width: 100%;
+      background: #388e3c;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 0.9rem 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 8px rgba(56,142,60,0.10);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .stalls-btn:last-child {
+      margin-bottom: 0;
+    }
+    .stalls-btn:hover, .stalls-btn:focus {
+      background: #256029;
+      transform: translateY(-2px) scale(1.03);
+      outline: none;
+    }
+    .stalls-desc {
+      color: #555;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+      background: rgba(34, 34, 34, 0.35);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      box-shadow: 0 4px 24px rgba(56,142,60,0.13);
+      min-width: 300px;
+      max-width: 90vw;
+      position: relative;
+      text-align: left;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+      color: #388e3c;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+    .modal-content label {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: #256029;
+      font-weight: 500;
+    }
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .modal-content input[type="text"].email-match,
+    .modal-content input[type="email"].email-match,
+    .modal-content input[type="password"],
+    .modal-content .password-wrapper input[type="text"],
+    .modal-content input[type="text"].phone-match,
+    .modal-content input[type="text"].email-match,
+    .modal-content input[type="email"].email-match {
+      width: 100%;
+      padding: 0.7rem 2.5rem 0.7rem 0.7rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+      border: 1px solid #c8e6c9;
+      font-size: 1rem;
+      outline: none;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      color: #888;
+      font-size: 1.2rem;
+      height: 2rem;
+      width: 2rem;
+    }
+    .toggle-password:focus, .toggle-password:active {
+      outline: none;
+      border: none;
+      box-shadow: none;
+      background: none;
+      color: #388e3c;
+    }
+    .toggle-password svg {
+      width: 1.5em;
+      height: 1.2em;
+      pointer-events: none;
+    }
+    .modal-content button[type="submit"] {
+      width: 100%;
+      background: #388e3c;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      padding: 0.7rem 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .modal-content button[type="submit"]:hover,
+    .modal-content button[type="submit"]:focus {
+      background: #256029;
+    }
+    .close-modal {
+      position: absolute;
+      top: 0.7rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .close-modal:hover, .close-modal:focus {
+      color: #388e3c;
+      outline: none;
+    }
+    .forgot-link {
+      display: block;
+      text-align: right;
+      margin-top: -0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.97rem;
+      color: #388e3c;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .forgot-link:hover, .forgot-link:focus {
+      color: #256029;
+      text-decoration: underline;
+      outline: none;
+    }
+    @media (max-width: 500px) {
+      .stalls-container {
+        padding: 1.2rem 0.5rem;
+      }
+      .modal-content {
+        padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stalls-header">
+    <h1>Street Food Stalls</h1>
+    <p>Welcome to GrocerBridge! Access fresh groceries and supplies for your stall.</p>
+  </div>
+  <div class="stalls-container">
+    <h2>Get Started</h2>
+    <div class="stalls-desc">
+      Sign in to manage your orders, or sign up to join our network of thriving street food entrepreneurs.
+    </div>
+    <a href="#signin" class="stalls-btn" id="openSignIn">Sign In</a>
+    <a href="#signup" class="stalls-btn" id="openSignUp">Sign Up</a>
+    <a href="stallHome.html" class="stalls-btn" style="background: #6c757d;">Continue as Guest</a>
+  </div>
+
+  <!-- Sign In Modal -->
+  <div class="modal" id="signInModal" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-modal" id="closeSignIn" aria-label="Close">&times;</button>
+      <h3>Sign In</h3>
+      <form id="signInForm" autocomplete="off">
+        <label for="phone">Phone Number</label>
+        <div class="input-wrapper">
+          <input type="text" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" required placeholder="Enter your phone number" class="phone-match">
+        </div>
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" required placeholder="Enter your password">
+          <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
+            <span id="eyeIcon">
+              <!-- Eye SVG (open) -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </button>
+        </div>
+        <a href="#" class="forgot-link">Forgot Password?</a>
+        <button type="submit" class="modal-btn">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div class="modal" id="signUpModal" aria-modal="true" role="dialog">
+    <div class="modal-content">
+      <button class="close-modal" id="closeSignUp" aria-label="Close">&times;</button>
+      <h3>Sign Up</h3>
+      <form id="signUpForm" autocomplete="off">
+        <label for="signup-name">Name</label>
+        <div class="input-wrapper">
+          <input type="text" id="signup-name" name="signup-name" required placeholder="Enter your name" class="phone-match">
+        </div>
+        <label for="signup-phone">Phone Number</label>
+        <div class="input-wrapper">
+          <input type="text" id="signup-phone" name="signup-phone" pattern="[0-9]{10}" maxlength="10" required placeholder="Enter your phone number" class="phone-match">
+        </div>
+        <label for="signup-email">Email</label>
+        <div class="input-wrapper">
+          <input type="email" id="signup-email" name="signup-email" required placeholder="Enter your email" class="email-match">
+        </div>
+        <label for="signup-password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="signup-password" name="signup-password" required placeholder="Enter your password">
+          <button type="button" class="toggle-password" id="toggleSignUpPassword" aria-label="Show password">
+            <span id="eyeIconSignUp">
+              <!-- Eye SVG (open) -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </span>
+          </button>
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Modal open/close logic
+    const openBtn = document.getElementById('openSignIn');
+    const modal = document.getElementById('signInModal');
+    const closeBtn = document.getElementById('closeSignIn');
+    const openSignUpBtn = document.getElementById('openSignUp');
+    const signUpModal = document.getElementById('signUpModal');
+    const closeSignUpBtn = document.getElementById('closeSignUp');
+    openBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modal.classList.add('active');
+      setTimeout(() => {
+        document.getElementById('phone').focus();
+      }, 100);
+    });
+    closeBtn.addEventListener('click', function() {
+      modal.classList.remove('active');
+    });
+    openSignUpBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      signUpModal.classList.add('active');
+      setTimeout(() => {
+        document.getElementById('signup-name').focus();
+      }, 100);
+    });
+    closeSignUpBtn.addEventListener('click', function() {
+      signUpModal.classList.remove('active');
+    });
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        modal.classList.remove('active');
+        signUpModal.classList.remove('active');
+      }
+    });
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+    signUpModal.addEventListener('click', function(e) {
+      if (e.target === signUpModal) signUpModal.classList.remove('active');
+    });
+
+    // Password visibility toggle
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    let passwordVisible = false;
+    togglePasswordBtn.addEventListener('click', function() {
+      passwordVisible = !passwordVisible;
+      if (passwordVisible) {
+        passwordInput.type = 'text';
+        eyeIcon.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.81 21.81 0 0 1 5.06-6.06M1 1l22 22"/><path d="M9.53 9.53A3 3 0 0 0 12 15a3 3 0 0 0 2.47-5.47"/></svg>
+        `; // Eye closed
+      } else {
+        passwordInput.type = 'password';
+        eyeIcon.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        `; // Eye open
+      }
+    });
+    // Sign Up password visibility toggle
+    const signUpPasswordInput = document.getElementById('signup-password');
+    const toggleSignUpPasswordBtn = document.getElementById('toggleSignUpPassword');
+    const eyeIconSignUp = document.getElementById('eyeIconSignUp');
+    let signUpPasswordVisible = false;
+    toggleSignUpPasswordBtn.addEventListener('click', function() {
+      signUpPasswordVisible = !signUpPasswordVisible;
+      if (signUpPasswordVisible) {
+        signUpPasswordInput.type = 'text';
+        eyeIconSignUp.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a21.81 21.81 0 0 1 5.06-6.06M1 1l22 22"/><path d="M9.53 9.53A3 3 0 0 0 12 15a3 3 0 0 0 2.47-5.47"/></svg>
+        `; // Eye closed
+      } else {
+        signUpPasswordInput.type = 'password';
+        eyeIconSignUp.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        `; // Eye open
+      }
+    });
+  </script>
+  <script>
+    // Sign Up handler
+    document.getElementById('signUpForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const phone = document.getElementById('signup-phone').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      const res = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, email, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert('Sign up successful!');
+        document.getElementById('signUpModal').classList.remove('active');
+      } else {
+        alert(data.msg || 'Sign up failed');
+      }
+    });
+
+    // Sign In handler
+    document.getElementById('signInForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+
+      const res = await fetch('http://localhost:5000/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, password })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert('Sign in successful! Welcome, ' + data.user.name);
+        document.getElementById('signInModal').classList.remove('active');
+        // Optionally, redirect or store user info here
+      } else {
+        alert(data.msg || 'Sign in failed');
+      }
+    });
+  </script>
+</body>
+</html> 

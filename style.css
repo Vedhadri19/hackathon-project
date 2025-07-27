@@ -1,0 +1,189 @@
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7fafc;
+      color: #222;
+    }
+    header {
+      background: #388e3c;
+      color: #fff;
+      padding: 2.5rem 1rem 1.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.7rem;
+      letter-spacing: 1px;
+    }
+    header p {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.2rem 0 0.5rem 0;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: text-decoration 0.2s;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      background: #e8f5e9;
+      padding: 2.5rem 1rem 2rem 1rem;
+      text-align: center;
+    }
+    .hero h2 {
+      color: #388e3c;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: #444;
+      margin: 0 auto 2rem auto;
+      max-width: 600px;
+    }
+    .shop-btn {
+      display: inline-block;
+      background: #388e3c;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(56,142,60,0.10);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .shop-btn:hover, .shop-btn:focus {
+      background: #256029;
+      transform: translateY(-2px) scale(1.03);
+      outline: none;
+    }
+    section {
+      max-width: 950px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 2rem;
+    }
+    section h2 {
+      color: #388e3c;
+      margin-top: 0;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .feature {
+      flex: 1 1 250px;
+      background: #f1f8e9;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+    .feature h3 {
+      margin-top: 0;
+      color: #388e3c;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    input, textarea, select, button {
+      font-size: 1rem;
+      padding: 0.7rem;
+      border-radius: 6px;
+      border: 1px solid #c8e6c9;
+      outline: none;
+    }
+    button {
+      background: #388e3c;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #256029;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem 1rem 1rem;
+      color: #888;
+      font-size: 1rem;
+      background: #f1f8e9;
+      margin-top: 2rem;
+    }
+    .header-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 1.2rem;
+      padding-bottom: 1.2rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .header-branding {
+      text-align: center;
+    }
+    .header-nav {
+      position: absolute;
+      top: 0rem;
+      right: 0rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .header-btn {
+      background: #fff;
+      color: #388e3c;
+      border: 2px solid #388e3c;
+      border-radius: 6px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      margin-left: 0.5rem;
+    }
+    .header-btn:hover, .header-btn:focus {
+      background: #388e3c;
+      color: #fff;
+      border-color: #256029;
+      outline: none;
+    }
+    @media (max-width: 700px) {
+      .features {
+        flex-direction: column;
+      }
+      section {
+        padding: 1rem;
+      }
+      .header-nav {
+        position: static;
+        justify-content: flex-end;
+        margin-top: 0.5rem;
+      }
+      .header-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+    }

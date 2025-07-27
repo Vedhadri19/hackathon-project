@@ -1,13 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Dev</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrocerBridge - Connecting Shops with Grocery Suppliers</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <script src="index.js"></script>
+  <header>
+    <div class="header-container">
+      <div class="header-branding">
+        <h1 style="margin-bottom: 0.3rem;">GrocerBridge</h1>
+        <p style="margin-top: 0;">Your trusted B2B platform connecting grocery suppliers/retail shops with street food stalls</p>
+      </div>
+      <nav class="header-nav">
+        <a href="about.html" class="header-btn">About Us</a>
+        <a href="help.html" class="header-btn">Help</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h2>Empowering Retailers. Enabling Suppliers.</h2>
+    <p>
+      GrocerBridge is a one-stop B2B solution for street food stalls to source groceries directly from verified suppliers/retail shops at the best prices. Streamline your supply chain, discover new products, and grow your business with us.
+    </p>
+    <a href="stalls.html" class="shop-btn" aria-label="Go to Street food stalls page">For Street Food Stalls</a>
+    <a href="suppliers.html" class="shop-btn" style="margin-left: 1rem; margin-top: 1rem;" aria-label="Go to Grocery Suppliers page">For Grocery Suppliers/Retail shops</a>
+  </div>
+
+  <section id="features">
+    <h2>Platform Features</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>Wide Product Range</h3>
+        <ul>
+          <li>Groceries, staples, beverages, and more</li>
+          <li>Bulk and custom order options</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <h3>Verified Suppliers</h3>
+        <ul>
+          <li>Trusted, quality-checked vendors</li>
+          <li>Transparent pricing and ratings</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <h3>Easy Ordering</h3>
+        <ul>
+          <li>Simple, intuitive order process</li>
+          <li>Order tracking and timely delivery</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <h3>Support & Growth</h3>
+        <ul>
+          <li>Dedicated support for shops and suppliers</li>
+          <li>Grow your network and business</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Removed the old For Retail Shops section -->
+
+  <!-- <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Want to join as a shop or supplier? Have questions? Fill out the form below and our team will reach out to you!</p>
+    <form>
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+      <label for="role">I am a</label>
+      <select id="role" name="role" required>
+        <option value="">Select...</option>
+        <option value="shop">Retail Shop Owner</option>
+        <option value="supplier">Grocery Supplier</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section> -->
+
+  <footer>
+    &copy; 2024 GrocerBridge. Powering B2B grocery supply for shops and suppliers.
+  </footer>
 </body>
 </html>
+
